@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -36,7 +37,7 @@ fun HomeScreen(
     modifier: Modifier,
     homeViewModel: HomeViewModel,
     ){
-    val listItem by homeViewModel.listItem.collectAsState()
+    val listCategory by homeViewModel.listCategory.collectAsState()
     Column(
     modifier = modifier
         .padding(horizontal = 16.dp),
@@ -52,15 +53,14 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(listHeaderItems){ item->
+            itemsIndexed(listHeaderItems){index,item->
+                val lengthTask =listCategory.getOrNull(index)?.listTask?.size ?: 0
                 Card(
                     onClick = {},
                     modifier = Modifier
                         .height(98.dp),
                     colors = CardDefaults.cardColors(containerColor = item.color.copy(alpha = 0.1f)),
-
-
-                ) {
+                    ) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -75,28 +75,30 @@ fun HomeScreen(
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            Text(item.count)
+                            Text(lengthTask.toString())
                             Text(item.title)
                         }
 
                     }
                 }
             }
-        }
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            items(listItem){item->
-                Box(
-                   modifier = Modifier
-                       .height(70.dp)
 
-                ){
-                    Text(item)
-                }
-            }
+
         }
+//        LazyColumn(
+//            modifier = Modifier
+//                .fillMaxSize()
+//        ) {
+//            items(listItem){item->
+//                Box(
+//                   modifier = Modifier
+//                       .height(70.dp)
+//
+//                ){
+//                    Text(item)
+//                }
+//            }
+//        }
 
 
     }
