@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -38,6 +40,9 @@ fun HomeScreen(
     homeViewModel: HomeViewModel,
     ){
     val listCategory by homeViewModel.listCategory.collectAsState()
+    val isLoadingCategory by homeViewModel.isLoading.collectAsState()
+
+    println("cargado $isLoadingCategory")
     Column(
     modifier = modifier
         .padding(horizontal = 16.dp),
@@ -75,7 +80,15 @@ fun HomeScreen(
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            Text(lengthTask.toString())
+                            if (!isLoadingCategory) {
+                                Text(lengthTask.toString())
+                            } else {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .width(25.dp)
+                                        .height(25.dp)
+                                )
+                            }
                             Text(item.title)
                         }
 
@@ -83,24 +96,7 @@ fun HomeScreen(
                 }
             }
 
-
         }
-//        LazyColumn(
-//            modifier = Modifier
-//                .fillMaxSize()
-//        ) {
-//            items(listItem){item->
-//                Box(
-//                   modifier = Modifier
-//                       .height(70.dp)
-//
-//                ){
-//                    Text(item)
-//                }
-//            }
-//        }
-
-
     }
 }
 

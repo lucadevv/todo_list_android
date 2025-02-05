@@ -14,7 +14,8 @@ class HomeViewModel: ViewModel(){
 
     private val _listCategory = MutableStateFlow<List<CategoryTask>>(categoryTask)
     val listCategory: StateFlow<List<CategoryTask>>  = _listCategory
-
+    private  val _isLoading = MutableStateFlow<Boolean>(false);
+    val isLoading = _isLoading;
 
     init{
         getAllCategories()
@@ -22,8 +23,10 @@ class HomeViewModel: ViewModel(){
 
     private fun getAllCategories(){
         viewModelScope.launch {
-            delay(timeMillis = 1200)
+            _isLoading.value = true;
+            delay(timeMillis = 4000)
             _listCategory.value = categoryTask
+            _isLoading.value = false;
         }
     }
 
