@@ -5,14 +5,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.lucadev.todolist.app.screens.HomeScreen
+import com.lucadev.todolist.app.screens.viewmodel.HomeViewModel
 import com.lucadev.todolist.ui.theme.TodolistTheme
 
 
 @Composable
-fun App(){
+fun App(
+    homeViewModel: HomeViewModel
+){
     TodolistTheme {
         Scaffold { innerPadding ->
-            HomeScreen(modifier = Modifier.padding(innerPadding))
+            HomeScreen(modifier = Modifier.padding(innerPadding),homeViewModel)
         }
     }
 }
