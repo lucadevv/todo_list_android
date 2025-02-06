@@ -80,15 +80,16 @@ fun HomeScreen(
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            if (!isLoadingCategory) {
-                                Text(lengthTask.toString())
-                            } else {
-                                CircularProgressIndicator(
-                                    modifier = Modifier
-                                        .width(25.dp)
-                                        .height(25.dp)
-                                )
-                            }
+                            Text(lengthTask.toString())
+//                            if (!isLoadingCategory) {
+//                                Text(lengthTask.toString())
+//                            } else {
+//                                CircularProgressIndicator(
+//                                    modifier = Modifier
+//                                        .width(25.dp)
+//                                        .height(25.dp)
+//                                )
+//                            }
                             Text(item.title)
                         }
 
