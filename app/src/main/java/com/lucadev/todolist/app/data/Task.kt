@@ -7,3 +7,12 @@ data class Task(
     val idCategory:Int,
     val listSubTask:List<SubTask> = emptyList()
 )
+
+
+val listTask = listOf(
+    Task(id = 1, taskName = "hola", state = false, idCategory = 2, listSubTask = emptyList()),
+    Task(id = 1, taskName = "hola", state = false, idCategory = 2, listSubTask = emptyList()),
+    Task(id = 1, taskName = "hola", state = false, idCategory = 2, listSubTask = emptyList()),
+    Task(id = 1, taskName = "hola", state = false, idCategory = 2, listSubTask = emptyList()),
+)
+
