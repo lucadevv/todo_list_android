@@ -1,9 +1,9 @@
 package com.lucadev.todolist.app
-
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.lucadev.todolist.app.screens.AddScreen
 import com.lucadev.todolist.app.screens.HomeScreen
 import com.lucadev.todolist.app.screens.viewmodel.HomeViewModel
 import com.lucadev.todolist.ui.theme.TodolistTheme
@@ -14,8 +14,21 @@ fun App(
     homeViewModel: HomeViewModel
 ){
     TodolistTheme {
-        Scaffold { innerPadding ->
-            HomeScreen(modifier = Modifier.padding(innerPadding),homeViewModel)
+        NavigationApp(homeViewModel = homeViewModel)
+    }
+}
+
+
+@Composable
+fun NavigationApp(homeViewModel: HomeViewModel){
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "home") {
+        composable("home"){
+            HomeScreen(navController = navController, homeViewModel = homeViewModel)
         }
+        composable("add"){
+            AddScreen(navController = navController)
+        }
+
     }
 }

@@ -14,12 +14,14 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -34,12 +36,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.lucadev.todolist.R
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.lucadev.todolist.app.screens.ui_entity.listHeaderItems
 import com.lucadev.todolist.app.screens.viewmodel.HomeViewModel
 import com.lucadev.todolist.ui.theme.TodolistTheme
@@ -47,22 +51,35 @@ import com.lucadev.todolist.ui.theme.TodolistTheme
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier,
     homeViewModel: HomeViewModel,
+    navController: NavController,
     ) {
-    Column(
-        modifier = modifier
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        Text(
-            "TODAY 03 FEB",
-            fontSize = 25.sp,
-            fontWeight = FontWeight.SemiBold
-        )
-        Header(homeViewModel = homeViewModel)
-        ListTasks(homeViewModel= homeViewModel)
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    navController.navigate("add")
+                }
+            ) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "add")
+            }
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                "TODAY 03 FEB",
+                fontSize = 25.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+            Header(homeViewModel = homeViewModel)
+            ListTasks(homeViewModel= homeViewModel)
 
+        }
     }
 
 }
@@ -81,7 +98,7 @@ private fun Header(
     ) {
 
         itemsIndexed(listHeaderItems) { index, item ->
-            val lengthTask = listCategory.getOrNull(index)?.listTask?.size ?: 0
+            val itemCard = listCategory.getOrNull(index)?.listTask?.size ?: 0
             Card(
                 onClick = {},
                 modifier = Modifier
@@ -103,7 +120,7 @@ private fun Header(
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         if (!isLoadingCategory) {
-                            Text(lengthTask.toString())
+                            Text(itemCard.toString())
                         } else {
                             CircularProgressIndicator(
                                 modifier = Modifier
@@ -135,15 +152,10 @@ private fun ListTasks(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         itemsIndexed(listTask){index,item->
-            Card(
-                onClick = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(4.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0XFF908986).copy(alpha = 0.0f))
-
-            ) {
+                val itemSubTask = item.listSubTask
                 ListItem(
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     headlineContent = {
                         Text(item.taskName)
                     },
@@ -166,17 +178,22 @@ private fun ListTasks(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 32.dp) // Desplazar un poco hacia la derecha
+                            .padding(start = 32.dp)
                     ) {
-                        ListItem(
-                            headlineContent = { Text("subTask.name") },
-                            leadingContent = {
-                                Checkbox(checked = true, onCheckedChange = {})
-                            }
-                        )
+                        itemSubTask.forEach { item ->
+                            ListItem(
+                                headlineContent = { Text(item.nameSubTask) },
+                                leadingContent = {
+                                    Checkbox(checked = true, onCheckedChange = {})
+                                }
+                            )
+
+                        }
+
+
                     }
                 }
-            }
+
 
         }
 
@@ -186,11 +203,11 @@ private fun ListTasks(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview(){
-
+    val navController = rememberNavController()
     TodolistTheme {
-
-        Scaffold { innerPadding->
-            HomeScreen(modifier = Modifier.padding(innerPadding), homeViewModel = HomeViewModel())
-        }
+        HomeScreen(
+            homeViewModel = HomeViewModel(),
+            navController = navController
+        )
     }
 }

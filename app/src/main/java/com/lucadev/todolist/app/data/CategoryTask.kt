@@ -1,13 +1,14 @@
 package com.lucadev.todolist.app.data
 
-data class CategoryTask(val id:Int,val name:String, val listTask: List<Task> = emptyList())
+data class CategoryTask(val name:String, val listTask: MutableList<Task> = mutableListOf())
 
 
 
 
 val categoryTask: List<CategoryTask> = mutableListOf(
-    CategoryTask(0,"Health", emptyList()),
-    CategoryTask(1,"Work", emptyList()),
-    CategoryTask(2,"Mental Health", emptyList()),
-    CategoryTask(3,"Others", emptyList()),
+    CategoryTask("Health",listTask),
+    CategoryTask("Work",),
+    CategoryTask("Mental Health"),
+    CategoryTask("Others"),
 )
+
