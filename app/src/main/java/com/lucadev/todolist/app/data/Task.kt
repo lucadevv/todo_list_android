@@ -9,10 +9,7 @@ data class Task(
 )
 
 
-val listTask = listOf(
-    Task(id = 1, taskName = "hola", state = false, idCategory = 2, listSubTask = emptyList()),
-    Task(id = 1, taskName = "hola", state = false, idCategory = 2, listSubTask = emptyList()),
-    Task(id = 1, taskName = "hola", state = false, idCategory = 2, listSubTask = emptyList()),
-    Task(id = 1, taskName = "hola", state = false, idCategory = 2, listSubTask = emptyList()),
+val listTask = mutableListOf(
+    Task(id = 0, taskName = "Codear en android", state = true, idCategory = 0, emptyList()),
+    Task(id = 1, taskName = "Aprender Trading", state = false, idCategory = 1, emptyList()),
 )
-
