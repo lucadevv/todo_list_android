@@ -3,6 +3,7 @@ package com.lucadev.todolist.app.screens.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lucadev.todolist.app.data.CategoryTask
+import com.lucadev.todolist.app.data.SubTask
 import com.lucadev.todolist.app.data.Task
 import com.lucadev.todolist.app.data.categoryTask
 import com.lucadev.todolist.app.data.listTask
@@ -32,7 +33,7 @@ class HomeViewModel: ViewModel(){
     private fun getAllCategories(){
         viewModelScope.launch {
             _isLoading.value = true;
-            delay(timeMillis = 4000)
+//            delay(timeMillis = 2000)
             _listCategory.value = categoryTask
             _isLoading.value = false;
         }
@@ -41,11 +42,13 @@ class HomeViewModel: ViewModel(){
     private fun getAllTask(){
         viewModelScope.launch {
             _isLoadingListTask.value = true
-//            delay(timeMillis = 4000)
-            _listTask.value = listTask
+//            delay(timeMillis = 3000)
+            _listTask.value = categoryTask.flatMap { it.listTask }
             _isLoadingListTask.value = false
         }
     }
+
+
 
 
 
