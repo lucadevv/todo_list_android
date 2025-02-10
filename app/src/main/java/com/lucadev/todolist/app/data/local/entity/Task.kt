@@ -1,4 +1,4 @@
-package com.lucadev.todolist.app.data.local
+package com.lucadev.todolist.app.data.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
     tableName = "tasks",
     foreignKeys = [
         ForeignKey(
-            entity = Categories::class,
+            entity = Category::class,
             parentColumns = ["idCategory"],
             childColumns = ["idCategory"],
             onDelete = ForeignKey.CASCADE,

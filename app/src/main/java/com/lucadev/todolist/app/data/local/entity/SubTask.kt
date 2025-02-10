@@ -1,4 +1,4 @@
-package com.lucadev.todolist.app.data.local
+package com.lucadev.todolist.app.data.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -16,7 +16,7 @@ import androidx.room.PrimaryKey
         )
     ]
 )
-data class SubTasks(
+data class SubTask(
     @PrimaryKey(autoGenerate = true)
     val idSutTask:Int = 0,
     val name:String,
