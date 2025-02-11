@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.lucadev.todolist.app.data.local.entity.Task
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TaskDao {
@@ -11,5 +12,5 @@ interface TaskDao {
     suspend fun insertTask(task: Task)
 
     @Query("SELECT * FROM tasks")
-    suspend fun getAllCategories()
+    fun getAllCategories(): Flow<List<Task>>
 }
