@@ -7,47 +7,32 @@ import com.lucadev.todolist.app.data.SubTask
 import com.lucadev.todolist.app.data.Task
 import com.lucadev.todolist.app.data.categoryTask
 import com.lucadev.todolist.app.data.listTask
+import com.lucadev.todolist.app.data.local.entity.Category
+import com.lucadev.todolist.app.use_case.CategoryUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
-class HomeViewModel: ViewModel(){
+class HomeViewModel(private val categoryUseCase: CategoryUseCase): ViewModel(){
 
-    private val _listCategory = MutableStateFlow<List<CategoryTask>>(emptyList())
-    val listCategory: StateFlow<List<CategoryTask>>  = _listCategory
-    private  val _isLoading = MutableStateFlow<Boolean>(false);
-    val isLoading = _isLoading;
-
-    private val _listTask = MutableStateFlow<List<Task>>(emptyList())
-    val listTaskData:StateFlow<List<Task>> = _listTask
-    private val _isLoadingListTask = MutableStateFlow<Boolean>(value = false)
-    val isLoadingListTask: StateFlow<Boolean> = _isLoadingListTask
+    private val _categoryList:MutableStateFlow<List<Category>> = MutableStateFlow<List<Category>>(emptyList())
+    private val categoryList = _categoryList.asStateFlow()
 
     init{
         getAllCategories()
-        getAllTask()
     }
 
     private fun getAllCategories(){
         viewModelScope.launch {
-            _isLoading.value = true;
-//            delay(timeMillis = 2000)
-            _listCategory.value = categoryTask
-            _isLoading.value = false;
+            categoryUseCase.getAllCategories()
+                .collect { categoryList ->
+                    _categoryList.value = categoryList;
+                }
         }
     }
-
-    private fun getAllTask(){
-        viewModelScope.launch {
-            _isLoadingListTask.value = true
-//            delay(timeMillis = 3000)
-            _listTask.value = categoryTask.flatMap { it.listTask }
-            _isLoadingListTask.value = false
-        }
-    }
-
 
 
 
