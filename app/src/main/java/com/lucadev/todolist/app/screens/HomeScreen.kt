@@ -44,8 +44,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.lucadev.todolist.app.domain.CategoryRepository
 import com.lucadev.todolist.app.screens.ui_entity.listHeaderItems
 import com.lucadev.todolist.app.screens.viewmodel.HomeViewModel
+import com.lucadev.todolist.app.use_case.CategoryUseCase
 import com.lucadev.todolist.ui.theme.TodolistTheme
 
 
@@ -77,7 +79,7 @@ fun HomeScreen(
                 fontWeight = FontWeight.SemiBold
             )
             Header(homeViewModel = homeViewModel)
-            ListTasks(homeViewModel= homeViewModel)
+//            ListTasks(homeViewModel= homeViewModel)
 
         }
     }
@@ -89,7 +91,7 @@ fun HomeScreen(
 private fun Header(
     homeViewModel: HomeViewModel
 ){
-    val listCategory by homeViewModel.listCategory.collectAsState()
+    val listCategory by homeViewModel.categoryList.collectAsState();
     val isLoadingCategory by homeViewModel.isLoading.collectAsState()
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -98,7 +100,7 @@ private fun Header(
     ) {
 
         itemsIndexed(listHeaderItems) { index, item ->
-            val itemCard = listCategory.getOrNull(index)?.listTask?.size ?: 0
+//            val itemCard = listCategory.getOrNull(index)
             Card(
                 onClick = {},
                 modifier = Modifier
@@ -120,7 +122,7 @@ private fun Header(
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         if (!isLoadingCategory) {
-                            Text(itemCard.toString())
+//                            Text(itemCard.toString())
                         } else {
                             CircularProgressIndicator(
                                 modifier = Modifier
@@ -138,76 +140,77 @@ private fun Header(
     }
 }
 
-@Composable
-private fun ListTasks(
-    homeViewModel: HomeViewModel
-){
-    val listTask by homeViewModel.listTaskData.collectAsState()
-    val isLoading by homeViewModel.isLoadingListTask.collectAsState()
-    val arrowDown = remember { mutableStateListOf<Boolean>().apply { addAll(List(listTask.size) { false }) } }
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        itemsIndexed(listTask){index,item->
-                val itemSubTask = item.listSubTask
-                ListItem(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    headlineContent = {
-                        Text(item.taskName)
-                    },
-                    leadingContent = {
-                        Checkbox(checked = item.state, onCheckedChange = {})
-                    },
-                    trailingContent = {
-                        IconButton(onClick = {
-                            arrowDown[index] = !arrowDown[index]
-                        }) {
-                            Icon(
-                                imageVector = if (arrowDown[index]) Icons.Default.KeyboardArrowUp else Icons.Default.ArrowDropDown,
-                                contentDescription = "Arrow Toggle"
-                            )
-                        }
-                    }
-
-                )
-                if (arrowDown[index]) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 32.dp)
-                    ) {
-                        itemSubTask.forEach { item ->
-                            ListItem(
-                                headlineContent = { Text(item.nameSubTask) },
-                                leadingContent = {
-                                    Checkbox(checked = true, onCheckedChange = {})
-                                }
-                            )
-
-                        }
-
-
-                    }
-                }
-
-
-        }
-
-    }
-}
+//@Composable
+//private fun ListTasks(
+//    homeViewModel: HomeViewModel
+//){
+//    val listTask by homeViewModel.categoryList.collectAsState()
+//    val isLoading by homeViewModel.isLoading.collectAsState()
+//    val arrowDown = remember { mutableStateListOf<Boolean>().apply { addAll(List(listTask.size) { false }) } }
+//
+//    LazyColumn(
+//        modifier = Modifier
+//            .fillMaxSize(),
+//        verticalArrangement = Arrangement.spacedBy(12.dp)
+//    ) {
+//        itemsIndexed(listTask){index,item->
+//                val itemSubTask = item.listSubTask
+//                ListItem(
+//                    modifier = Modifier
+//                        .fillMaxWidth(),
+//                    headlineContent = {
+//                        Text(item.taskName)
+//                    },
+//                    leadingContent = {
+//                        Checkbox(checked = item.state, onCheckedChange = {})
+//                    },
+//                    trailingContent = {
+//                        IconButton(onClick = {
+//                            arrowDown[index] = !arrowDown[index]
+//                        }) {
+//                            Icon(
+//                                imageVector = if (arrowDown[index]) Icons.Default.KeyboardArrowUp else Icons.Default.ArrowDropDown,
+//                                contentDescription = "Arrow Toggle"
+//                            )
+//                        }
+//                    }
+//
+//                )
+//                if (arrowDown[index]) {
+//                    Column(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(start = 32.dp)
+//                    ) {
+//                        itemSubTask.forEach { item ->
+//                            ListItem(
+//                                headlineContent = { Text(item.nameSubTask) },
+//                                leadingContent = {
+//                                    Checkbox(checked = true, onCheckedChange = {})
+//                                }
+//                            )
+//
+//                        }
+//
+//
+//                    }
+//                }
+//
+//
+//        }
+//
+//    }
+//}
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview(){
     val navController = rememberNavController()
+//    val categoryUseCase = CategoryUseCase(categoryRepository = CategoryRepository())
     TodolistTheme {
-        HomeScreen(
-            homeViewModel = HomeViewModel(),
-            navController = navController
-        )
+//        HomeScreen(
+//            homeViewModel = HomeViewModel(categoryUseCase = CategoryUseCase()),
+//            navController = navController
+//        )
     }
 }

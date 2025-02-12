@@ -10,7 +10,5 @@ class CategoryUseCase(private val categoryRepository: CategoryRepository ){
     fun getAllCategories( ):Flow<List<Category>>{
         return  categoryRepository.getAllCategories();
     }
-    suspend fun insertCategory( category: Category){
-        categoryRepository.insertCategories(category);
-    }
+
 }

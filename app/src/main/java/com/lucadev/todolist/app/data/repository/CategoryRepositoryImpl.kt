@@ -7,9 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 
 class CategoryRepositoryImpl(private val categoryDao: CategoryDao):CategoryRepository{
-    override suspend fun insertCategories(category: Category) {
-        return categoryDao.insertCategory(category)
-    }
+
     override fun getAllCategories(): Flow<List<Category>> = categoryDao.getAllCategories()
 
 }
